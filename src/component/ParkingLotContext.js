@@ -9,8 +9,13 @@ const parkingLotReducer = (state, action) => {
         case 'PARK_CAR':
             return state.map(lot => {
                 if (lot.id === action.payload.parkingLot) {
+                    console.log("action.payload.parkTime", action.payload.parkTime)
                     const updatedCars = [...lot.cars];
-                    updatedCars[action.payload.position - 1] = action.payload.plateNumber;
+                    updatedCars[action.payload.position - 1] = {
+                        plateNumber: action.payload.plateNumber,
+                        parkTime: action.payload.parkTime
+                    };
+                    console.log("new",{ ...lot, cars: updatedCars })
                     return { ...lot, cars: updatedCars };
                 }
                 return lot;

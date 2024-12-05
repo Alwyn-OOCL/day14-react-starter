@@ -14,8 +14,8 @@ export const parkCar = (plateNumber, strategyType) => {
     });
 };
 
-export const fetchCar = (plateNumber) => {
-    return axios.post(`${baseUrl}/fetch`, { plateNumber }, {
+export const fetchCar = ({ plateNumber, parkTime }) => {
+    return axios.post(`${baseUrl}/fetch`, { plateNumber, parkTime }, {
         headers: {
             'Content-Type': 'application/json'
         }
