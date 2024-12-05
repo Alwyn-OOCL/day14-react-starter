@@ -1,13 +1,29 @@
-import React, { useState } from 'react';
+import React, {useState, useContext} from 'react';
+import {ParkingLotContext} from './ParkingLotContext';
+import {fetchParkingLots, parkCar} from '../api';
 
 const ParkingLotOperator = () => {
     const [plateNumber, setPlateNumber] = useState('');
-    const [parkingStrategy, setParkingStrategy] = useState('');
+    const [parkingStrategy, setParkingStrategy] = useState('Standard');
+    const {dispatch} = useContext(ParkingLotContext);
 
     const handlePark = () => {
-        console.log(`Plate Number: ${plateNumber}, Parking Strategy: ${parkingStrategy}`);
-        setPlateNumber('');
-        setParkingStrategy('');
+        if (!plateNumber || !parkingStrategy) {
+            alert('Plate Number and Parking Strategy are required.');
+            return;
+        }
+
+        parkCar(plateNumber, parkingStrategy).then(response => {
+            const {plateNumber, position, parkingLot} = response.data;
+            dispatch({type: 'PARK_CAR', payload: {plateNumber, position, parkingLot}});
+            setPlateNumber('');
+            setParkingStrategy('');
+        })
+        .catch(error => {
+            console.error('Failed to park car:', error);
+        }).finally(() => {
+            fetchParkingLots();
+        });
     };
 
     const handleFetch = () => {
@@ -37,7 +53,7 @@ const ParkingLotOperator = () => {
                     >
                         <option value="Standard">Standard</option>
                         <option value="Smart">Smart</option>
-                        <option value="SuperSmart">SuperSmart</option>
+                        <option value="Super">SuperSmart</option>
                     </select>
                 </label>
             </div>
