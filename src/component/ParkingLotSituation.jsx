@@ -14,7 +14,7 @@ const ParkingLotSituation = () => {
             for (let j = 0; j < cols; j++) {
                 const index = i * cols + j;
                 row.push(
-                    <td key={index} style={{ border: '1px solid black', width: '60px', height: '30px', textAlign: 'center', padding: '5px' }}>
+                    <td key={index} style={{ border: '1px solid black', width: '60px', height: '30px', textAlign: 'center', padding: '10px' }}>
                         {cars[index] ? <Car licensePlate={cars[index]} /> : ''}
                     </td>
                 );

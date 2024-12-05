@@ -53,7 +53,7 @@ const ParkingLotOperator = ({ refreshParkingLots }) => {
                         type="text"
                         value={plateNumber}
                         onChange={(e) => setPlateNumber(e.target.value)}
-                        style={{marginLeft: '5px'}}
+                        style={{ marginLeft: '5px', textAlign: 'center' }}
                     />
                 </label>
             </div>
@@ -66,16 +66,16 @@ const ParkingLotOperator = ({ refreshParkingLots }) => {
                         style={{margin: '5px'}}
                     >
                         <option value="">Select</option>
-                        <option value="Standard">Standard</option>
-                        <option value="Smart">Smart</option>
-                        <option value="SuperSmart">SuperSmart</option>
+                        <option value="STANDARD">Standard</option>
+                        <option value="SMART">Smart</option>
+                        <option value="SUPERSMART">SuperSmart</option>
                     </select>
                 </label>
             </div>
             <div style={{padding: '5px'}}>
                 <button
                     onClick={handlePark}
-                    style={{backgroundColor: '#a7d9fe', padding: '5px 10px'}}
+                    style={{backgroundColor: '#a7d9fe', padding: '5px 10px', width: '80px', borderRadius: '5px'}}
                 >
                     Park
                 </button>
@@ -83,7 +83,7 @@ const ParkingLotOperator = ({ refreshParkingLots }) => {
             <div style={{padding: '5px'}}>
                 <button
                     onClick={handleFetch}
-                    style={{backgroundColor: '#a7d9fe', padding: '5px 10px'}}
+                    style={{backgroundColor: '#a7d9fe', padding: '5px 10px', width: '80px', borderRadius: '5px'}}
                 >
                     Fetch
                 </button>
