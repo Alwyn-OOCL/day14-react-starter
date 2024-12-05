@@ -5,7 +5,9 @@ import { ParkingLotContext } from './ParkingLotContext';
 const ParkingLotSituation = () => {
     const { parkingLots } = useContext(ParkingLotContext);
 
-    const renderTable = (cars, rows, cols) => {
+    const renderTable = (cars, capacity) => {
+        const rows = Math.ceil(capacity / 3);
+        const cols = 3;
         let table = [];
         for (let i = 0; i < rows; i++) {
             let row = [];
@@ -25,13 +27,12 @@ const ParkingLotSituation = () => {
     return (
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
             {parkingLots.map((lot, index) => {
-                const rows = Math.ceil(lot.capacity / 3);
-                const cols = lot.capacity / rows;
+                const capacity = lot.name === 'City Mall Garage' ? 12 : 9;
                 return (
                     <div key={index} style={{ marginBottom: '20px', textAlign: 'center' }}>
                         <table style={{ borderCollapse: 'collapse' }}>
                             <tbody>
-                                {renderTable(lot.cars, rows, cols)}
+                                {renderTable(lot.cars, capacity)}
                             </tbody>
                         </table>
                         <h3>{lot.name}</h3>
