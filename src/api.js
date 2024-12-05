@@ -13,3 +13,11 @@ export const parkCar = (plateNumber, strategyType) => {
         }
     });
 };
+
+export const fetchCar = (plateNumber) => {
+    return axios.post(`${baseUrl}/fetch`, { plateNumber }, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+};

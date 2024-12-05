@@ -15,6 +15,11 @@ const parkingLotReducer = (state, action) => {
                 }
                 return lot;
             });
+        case 'REMOVE_CAR':
+            return state.map(lot => {
+                const updatedCars = lot.cars.map(car => car === action.payload.plateNumber ? null : car);
+                return { ...lot, cars: updatedCars };
+            });
         default:
             return state;
     }

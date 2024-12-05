@@ -1,11 +1,11 @@
-import React, {useState, useContext} from 'react';
-import {ParkingLotContext} from './ParkingLotContext';
-import {fetchParkingLots, parkCar} from '../api';
+import React, { useState, useContext } from 'react';
+import { ParkingLotContext } from './ParkingLotContext';
+import { parkCar, fetchCar } from '../api';
 
-const ParkingLotOperator = () => {
+const ParkingLotOperator = ({ refreshParkingLots }) => {
     const [plateNumber, setPlateNumber] = useState('');
-    const [parkingStrategy, setParkingStrategy] = useState('Standard');
-    const {dispatch} = useContext(ParkingLotContext);
+    const [parkingStrategy, setParkingStrategy] = useState('');
+    const { dispatch } = useContext(ParkingLotContext);
 
     const handlePark = () => {
         if (!plateNumber || !parkingStrategy) {
@@ -13,21 +13,35 @@ const ParkingLotOperator = () => {
             return;
         }
 
-        parkCar(plateNumber, parkingStrategy).then(response => {
-            const {plateNumber, position, parkingLot} = response.data;
-            dispatch({type: 'PARK_CAR', payload: {plateNumber, position, parkingLot}});
-            setPlateNumber('');
-            setParkingStrategy('');
-        })
-        .catch(error => {
-            console.error('Failed to park car:', error);
-        }).finally(() => {
-            fetchParkingLots();
-        });
+        parkCar(plateNumber, parkingStrategy)
+            .then(response => {
+                const { plateNumber, position, parkingLot } = response.data;
+                dispatch({ type: 'PARK_CAR', payload: { plateNumber, position, parkingLot } });
+                setPlateNumber('');
+                setParkingStrategy('');
+                refreshParkingLots();
+            })
+            .catch(error => {
+                console.error('Failed to park car:', error);
+            });
     };
 
     const handleFetch = () => {
-        console.log('Fetch button clicked');
+        if (!plateNumber) {
+            alert('Plate Number is required.');
+            return;
+        }
+
+        fetchCar(plateNumber)
+            .then(response => {
+                const { plateNumber } = response.data;
+                dispatch({ type: 'REMOVE_CAR', payload: { plateNumber } });
+                setPlateNumber('');
+                refreshParkingLots();
+            })
+            .catch(error => {
+                console.error('Failed to fetch car:', error);
+            });
     };
 
     return (
@@ -51,9 +65,10 @@ const ParkingLotOperator = () => {
                         onChange={(e) => setParkingStrategy(e.target.value)}
                         style={{margin: '5px'}}
                     >
+                        <option value="">Select</option>
                         <option value="Standard">Standard</option>
                         <option value="Smart">Smart</option>
-                        <option value="Super">SuperSmart</option>
+                        <option value="SuperSmart">SuperSmart</option>
                     </select>
                 </label>
             </div>
