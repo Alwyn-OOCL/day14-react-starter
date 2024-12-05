@@ -1,13 +1,16 @@
+import React from 'react';
 import './App.css';
-import ParkingLot from "./component/ParkingLot";
+import ParkingLot from './component/ParkingLot';
+import { ParkingLotProvider } from './component/ParkingLotContext';
 
-function App() {
+const App = () => {
     return (
-        <div>
-            <ParkingLot/>
-        </div>
-
+        <ParkingLotProvider>
+            <div>
+                <ParkingLot />
+            </div>
+        </ParkingLotProvider>
     );
-}
+};
 
 export default App;
